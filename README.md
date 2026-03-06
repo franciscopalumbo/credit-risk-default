@@ -4,7 +4,7 @@ Work in progress — building a machine learning model to predict loan default r
 
 ## Status
 - [x] Repo created
-- [ ] Data acquired
+- [x] Data acquired
 - [ ] Exploratory analysis
 - [ ] Model built
 - [ ] Results & write-up
