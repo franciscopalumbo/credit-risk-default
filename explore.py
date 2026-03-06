@@ -1,5 +1,6 @@
 import pandas as pd
 
+# Load the dataset
 df = pd.read_csv('data/accepted_2007_to_2018Q4.csv.gz', 
                  compression='gzip', 
                  low_memory=False)
@@ -47,7 +48,3 @@ df_model['emp_length'] = df_model['emp_length'].astype(float)
 # emp_length: 5.8% missing — impute with median rather than mean
 # as distribution is right-skewed by long-tenured borrowers
 df_model['emp_length'].fillna(df_model['emp_length'].median(), inplace=True)
-
-# Verify no missing values remain
-print(df_model.isnull().sum())
-print(f"Rows remaining: {len(df_model):,}")
