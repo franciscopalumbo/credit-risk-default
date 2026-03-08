@@ -108,5 +108,51 @@ ax.legend()
 
 plt.tight_layout()
 plt.savefig('outputs/figures/04_interest_rate_distribution.png')
-plt.show()
+plt.close()
+
+
+# ── Chart 5: DTI Distribution ──────────────────
+# Question: Do borrowers who defaulted have higher DTI ratios?
+
+fig, ax = plt.subplots(figsize=(8, 5))
+for label, colour, name in [(0, '#2ECC71', 'Fully Paid'), 
+                             (1, '#E74C3C', 'Default')]:
+    subset = df[df['default'] == label]['dti']
+    ax.hist(subset, bins=640, alpha=0.6, label=name, color=colour, density=True)
+    ax.axvline(subset.mean(), color=colour, linestyle='--', 
+           linewidth=2, label=f'{name} mean: {subset.mean():.1f}')
+ax.set_xlim(0, 80)
+ax.set_title('DTI Distribution by Loan Outcome')
+ax.set_xlabel('Debt-to-Income Ratio')
+ax.set_ylabel('Density')
+ax.legend()
+
+plt.tight_layout()
+plt.savefig('outputs/figures/05_dti_distribution.png')
+plt.close()
+
+# ── Chart 6: Default Rate by Loan Purpose ───────────────
+# Question: Does default rate vary by loan purpose?
+
+purpose_stats = df.groupby('purpose')['default'].mean().reset_index()
+purpose_stats.columns = ['purpose', 'default_rate']
+purpose_stats = purpose_stats.sort_values('default_rate')
+
+fig, ax = plt.subplots(figsize=(8, 5))
+sns.barplot(x='default_rate', y='purpose', data=purpose_stats,
+            palette='Reds', ax=ax)
+ax.set_title('Default Rate by Loan Purpose')
+ax.set_xlabel('Default Rate')
+ax.set_ylabel('Loan Purpose')
+
+# Add the percentage on top of each bar
+for bar in ax.patches:
+    ax.text(bar.get_width() + 0.005,
+            bar.get_y() + bar.get_height()/2,
+            f'{bar.get_width():.1%}',
+            ha='left', va='center', fontsize=11)
+ax.set_xlim(0, purpose_stats['default_rate'].max() * 1.2)
+
+plt.tight_layout()
+plt.savefig('outputs/figures/06_default_by_purpose.png')
 plt.close()
