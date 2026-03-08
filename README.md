@@ -5,7 +5,7 @@ Work in progress — building a machine learning model to predict loan default r
 ## Status
 - [x] Repo created
 - [x] Data acquired
-- [ ] Exploratory analysis
+- [x] Exploratory analysis
 - [ ] Model built
 - [ ] Results & write-up
 
@@ -46,3 +46,38 @@ defaulters, and we will evaluate it using metrics that reflect this, not just ac
 5. Train two models — Logistic Regression and Random Forest
 6. Evaluate and compare the models
 7. Write up findings in the README
+
+## Key EDA Findings
+
+- **Loan grade** is the strongest visual predictor of default — 
+  default rate rises from 6% (grade A) to 50% (grade G)
+- **Interest rate** shows clear separation between defaulters 
+  (mean 15.7%) and fully paid loans (mean 12.6%)
+- **FICO score** differences are smaller than expected — only a 
+  10 point mean difference, with heavy overlap between groups
+- **DTI ratio** shows modest separation (17.8 vs 20.2 mean) 
+  but distributions overlap heavily
+- **Loan purpose** matters — small business loans default at 
+  nearly 30%, almost double the overall rate of 20%
+- **Delinquencies (2yr)** show weak positive signal but noisy 
+  at higher values due to small sample sizes — feature retained 
+  for modelling
+
+  ## Data Quality & Limitations
+
+- **Negative DTI values:** 2 records contained negative DTI ratios, 
+  likely data entry errors. Retained as impact on model training 
+  is negligible (<0.001% of data)
+- **emp_length missing values:** 5.8% of records had no employment 
+  length recorded — imputed with median rather than mean due to 
+  right-skewed distribution
+- **Synthetic personal data:** Features capturing personal 
+  circumstances (dependants, cost of living, job stability) are 
+  absent from the dataset — limiting the model's ability to capture 
+  the full picture of borrower risk
+- **Temporal independence:** Loans from the same region and time 
+  period are not truly independent — a local economic shock affects 
+  many borrowers simultaneously
+- **Historical bias:** If past lending decisions reflected 
+  discriminatory practices, the model may learn and perpetuate 
+  those patterns
