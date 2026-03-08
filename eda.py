@@ -47,7 +47,7 @@ grade_stats = df.groupby('grade')['default'].mean().reset_index()
 grade_stats.columns = ['grade', 'default_rate']
 grade_stats = grade_stats.sort_values('grade')
 
-fig, ax = plt.subplots(figsize=(7, 4))
+fig, ax = plt.subplots(figsize=(8, 5))
 sns.barplot(x='grade', y='default_rate', data=grade_stats,
             palette='Reds', ax=ax)
 ax.set_title('Default Rate by Loan Grade')
@@ -66,4 +66,47 @@ ax.set_ylim(0, grade_stats['default_rate'].max() * 1.2)
 
 plt.tight_layout()
 plt.savefig('outputs/figures/02_default_by_grade.png')
+plt.close()
+
+# ── Chart 3: FICO Score Distribution ──────────────────
+# Question: Do defaulters tend to have lower FICO scores?
+
+fig, ax = plt.subplots(figsize=(8, 5))
+
+for label, colour, name in [(0, '#2ECC71', 'Fully Paid'), 
+                             (1, '#E74C3C', 'Default')]:
+    subset = df[df['default'] == label]['fico_range_low']
+    ax.hist(subset, bins=40, alpha=0.6, label=name, color=colour, density=True)
+    ax.axvline(subset.mean(), color=colour, linestyle='--', 
+           linewidth=2, label=f'{name} mean: {subset.mean():.0f}')
+
+ax.set_title('FICO Score Distribution by Loan Outcome')
+ax.set_xlabel('FICO Score')
+ax.set_ylabel('Density')
+ax.legend()
+
+plt.tight_layout()
+plt.savefig('outputs/figures/03_fico_distribution.png')
+plt.close()
+
+# ── Chart 4: Interest Rate Distribution ──────────────────
+# Question: Do borrowers who defaulted pay higher interest rates?
+
+fig, ax = plt.subplots(figsize=(8, 5))
+
+for label, colour, name in [(0, '#2ECC71', 'Fully Paid'), 
+                             (1, '#E74C3C', 'Default')]:
+    subset = df[df['default'] == label]['int_rate']
+    ax.hist(subset, bins=40, alpha=0.6, label=name, color=colour, density=True)
+    ax.axvline(subset.mean(), color=colour, linestyle='--', 
+           linewidth=2, label=f'{name} mean: {subset.mean():.1f}%')
+    
+ax.set_title('Interest Rate Distribution by Loan Outcome')
+ax.set_xlabel('Interest Rate (%)')
+ax.set_ylabel('Density')
+ax.legend()
+
+plt.tight_layout()
+plt.savefig('outputs/figures/04_interest_rate_distribution.png')
+plt.show()
 plt.close()
