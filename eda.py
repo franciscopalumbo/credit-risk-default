@@ -164,5 +164,6 @@ plt.close()
 # (19.6% at 0 delinquencies vs ~24% at 5+)
 # Relationship is noisy at higher values due to small sample sizes
 # Chart omitted — finding documented in README
+delinq_stats = df.groupby('delinq_2yrs')['default'].mean().reset_index()
 print(delinq_stats.head(10))
 print(df['delinq_2yrs'].value_counts().sort_index().head(10))
