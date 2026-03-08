@@ -48,3 +48,11 @@ df_model['emp_length'] = df_model['emp_length'].astype(float)
 # emp_length: 5.8% missing — impute with median rather than mean
 # as distribution is right-skewed by long-tenured borrowers
 df_model['emp_length'].fillna(df_model['emp_length'].median(), inplace=True)
+
+# Convert term from string to numeric
+df_model['term'] = df_model['term'].str.extract(r'(\d+)')
+df_model['term'] = df_model['term'].astype(int)
+
+# Save cleaned dataset for use in subsequent scripts
+df_model.to_csv('data/loans_clean.csv', index=False)
+print(f"Clean dataset saved: {len(df_model):,} rows")
