@@ -156,3 +156,13 @@ ax.set_xlim(0, purpose_stats['default_rate'].max() * 1.2)
 plt.tight_layout()
 plt.savefig('outputs/figures/06_default_by_purpose.png')
 plt.close()
+
+# ── Chart 7: Default Rate by Number of Delinquencies ───────────────
+# Question: Does default rate rise with number of delinquencies in past 2 years?
+
+# delinq_2yrs shows weak positive relationship with default
+# (19.6% at 0 delinquencies vs ~24% at 5+)
+# Relationship is noisy at higher values due to small sample sizes
+# Chart omitted — finding documented in README
+print(delinq_stats.head(10))
+print(df['delinq_2yrs'].value_counts().sort_index().head(10))
