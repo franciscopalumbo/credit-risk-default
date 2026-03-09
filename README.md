@@ -63,7 +63,7 @@ defaulters, and we will evaluate it using metrics that reflect this, not just ac
   at higher values due to small sample sizes — feature retained 
   for modelling
 
-  ## Data Quality & Limitations
+## Data Quality & Limitations
 
 - **Negative DTI values:** 2 records contained negative DTI ratios, 
   likely data entry errors. Retained as impact on model training 
@@ -81,3 +81,13 @@ defaulters, and we will evaluate it using metrics that reflect this, not just ac
 - **Historical bias:** If past lending decisions reflected 
   discriminatory practices, the model may learn and perpetuate 
   those patterns
+
+## Model Recommendation
+
+I would recommend implementing the Logistic Regression model rather than the Random Forest model, despite their similar ROC–AUC scores (0.706 and 0.697 respectively), because of the substantial difference in recall between the two models. The Logistic Regression model achieves a recall of 63%, compared with only 6% for the Random Forest model.
+
+In this context, recall represents the model’s ability to correctly identify borrowers who will default. Prioritising recall is critical in lending decisions because failing to detect a defaulter can result in the loss of the loan principal, expected interest, and additional debt recovery costs. In contrast, incorrectly flagging a creditworthy borrower as high-risk is generally less damaging. Such applicants can be reassessed through manual review, appeal the decision, or seek credit from alternative lenders, whereas a loan issued to a borrower who subsequently defaults cannot easily be reversed.
+
+This higher recall, however, comes at the expense of precision. The Logistic Regression model has a precision of 32%, meaning that many loans flagged as potential defaults are in fact false positives. In practice, this trade-off can be managed operationally by routing flagged applications to manual credit assessment rather than automatically rejecting them. This approach allows lenders to capture a larger proportion of genuine defaulters while limiting the negative impact on legitimate borrowers.
+
+Overall, the Logistic Regression model provides a more risk-averse and practically useful screening tool, as it substantially improves the detection of potential defaulters while maintaining a comparable overall discriminatory ability to the Random Forest model.
